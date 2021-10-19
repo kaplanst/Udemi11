@@ -18,19 +18,19 @@ public class MainPage {
     private By submitButton = By.xpath("//button[@id='popup-login-button']");
     private By quitButton = By.xpath("//*[text()='Выйти']");
 
-    public loginPage clickLoginButton(){ // Open login popUp window
+    public LoginPage clickLoginButton(){ // Open login popUp window
         driver.findElement(personalAccount).click();
         driver.findElement(loginButton).click();
-        return new loginPage(driver);
+        return new LoginPage(driver);
     }
     public SignUpPage clickSignUpButton(){ // Open signUp popUp window
         driver.findElement(personalAccount).click();
         driver.findElement(SignUpButton).click();
         return new SignUpPage(driver);
     }
-    public SignUpPage clickSignUpLink(){ // Open login/signUp page
+    public LoginPage clickSignUpLink(){ // Open login/signUp page
         driver.findElement(SignInPageLink).click();
-        return new SignUpPage(driver);
+        return new LoginPage(driver);
     }
     public MainPage inputUserName(String username){ //insert username to login field
         driver.findElement(loginField).sendKeys(username);

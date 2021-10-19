@@ -17,7 +17,7 @@ public class SignUpPage {
     private By passwordError = By.xpath("//div[@class='simplecheckout-error-text simplecheckout-rule'][@data-length-min='4']");
     private By passwordConfirmError = By.xpath("//div[@class='simplecheckout-error-text simplecheckout-rule'][@data-equal='register_password']");
     private By existingPhone = By.xpath("//*[@id='pp_phone-error']");
-    //*[@id='pp_phone-error']
+
 
     public SignUpPage inputPhone(String username){ //insert username to login field
         driver.findElement(phoneInputField).sendKeys(username);
