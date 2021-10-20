@@ -43,8 +43,6 @@ public class MainPageTest {
         signUpPage.registrationWithInvalidCreds("7773989836", "Ger");
         Assert.assertEquals(signUpPage.passwordErrorText(), "Пароль должен быть от 4 до 20 символов!");
     }
-
-
     @AfterMethod
     void Bye(){
         driver.manage().deleteAllCookies();
