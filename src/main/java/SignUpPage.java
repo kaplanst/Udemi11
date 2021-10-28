@@ -38,6 +38,10 @@ public class SignUpPage {
         driver.findElement(registrationButton).click();
         return new SignUpPage(driver);
     }
+    public SignUpPage inpuConfirmPassword(String password){
+        this.confirmPassword(password);
+        return new SignUpPage(driver);
+    }
     public String getHeaderText(){
         return driver.findElement(registrationSign).getText();
     }

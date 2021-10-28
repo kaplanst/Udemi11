@@ -14,12 +14,5 @@ public class MainClass {
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz/");
 
-
-        MainPage mainPage = new MainPage(driver);
-        SignUpPage signUpPage = new SignUpPage(driver);
-        mainPage.clickSignUpButton();
-        signUpPage.registrationWithInvalidCreds("77773989836", "General1");
-  //      driver.quit();
-
-    }
+   }
 }

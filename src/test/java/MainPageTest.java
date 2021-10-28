@@ -20,29 +20,33 @@ public class MainPageTest {
         mainPage = new MainPage(driver);
     }
 
-    @Test(priority=1)
+    @Test
+    void loginPopupWindowTest(){
+        MainPage mp = mainPage.clickLoginButton();
+        Assert.assertEquals(mp.getPopupWindowText(), "Введите логин и пароль");
+    }
+    @Test
     void loginLinkTest(){
         LoginPage loginPage = mainPage.clickSignUpLink();
         Assert.assertEquals(loginPage.getRegisteredUserText(), "Я уже зарегистрирован");
     }
-    @Test(priority=0)
+    @Test
     void signUpInvalidTest(){
         SignUpPage signUpPage = mainPage.clickSignUpButton();
         signUpPage.registrationWithInvalidCreds("7773989836", "Geretere1");
         Assert.assertEquals(signUpPage.existingPhoneErrorText(), "Такой номер уже зарегистрирован!\n" + "×");
     }
     @Test
-    void signUpEmptyPhoneTest(){
-        SignUpPage signUpPage = mainPage.clickSignUpButton();
-        signUpPage.registrationWithInvalidCreds("", "Geretere1");
-        Assert.assertEquals(signUpPage.phoneErrorText(), "Номер телефона указан не верно!");
+    void popUpLoginWindowErrorTest(){
+        MainPage mp = mainPage.signInPopupWindow("77777777777", "DDDDDDD");
+        Assert.assertEquals(mp.getErrorText(), "Неправильно заполнены поля E-Mail и/или пароль!");
     }
     @Test
-    void signUpInvalidPasswordTest(){
-        SignUpPage signUpPage = mainPage.clickSignUpButton();
-        signUpPage.registrationWithInvalidCreds("7773989836", "Ger");
-        Assert.assertEquals(signUpPage.passwordErrorText(), "Пароль должен быть от 4 до 20 символов!");
+    void popUpLoginWindowTest(){
+        MainPage mp = mainPage.signInPopupWindow("77773989836", "General1");
+        Assert.assertTrue(mp.findQuitButton());
     }
+
     @AfterMethod
     void Bye(){
         driver.manage().deleteAllCookies();

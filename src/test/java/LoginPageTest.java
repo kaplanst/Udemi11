@@ -37,8 +37,6 @@ public class LoginPageTest {
         SignUpPage signUpPage = loginPage.createAccount();
         Assert.assertEquals(signUpPage.getHeaderText(), "Быстрая регистрация");
     }
-
-
     @AfterMethod
     public void Bye(){
         driver.manage().deleteAllCookies();
