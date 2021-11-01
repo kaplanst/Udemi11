@@ -17,9 +17,9 @@ public class MainPage {
     private By passwordField = By.xpath("//input[@name='password']");
     private By submitButton = By.xpath("//button[@id='popup-login-button']");
     private By quitButton = By.xpath("//*[text()='Выйти']");
+    private By currency = By.xpath("//button[@class='btn btn-link dropdown-toggle  btn-currency']");
+    private By rubl = By.xpath("//button[@name='RUB']");
 
-    private By signInPopUpWindowText = By.xpath("//p[@class='blue']");
-    private By signInPopUpWindowErrorText = By.xpath("//div[@class='text-danger']");
 
     public MainPage clickLoginButton(){ // Open login popUp window
         driver.findElement(personalAccount).click();
@@ -34,9 +34,6 @@ public class MainPage {
     public LoginPage clickSignUpLink(){ // Open login/signUp page
         driver.findElement(SignInPageLink).click();
         return new LoginPage(driver);
-    }
-    public String getPopupWindowText(){ //get sign in Popup Window Text
-        return driver.findElement(signInPopUpWindowText).getText();
     }
     public MainPage inputUserName(String username){ //insert username to login field
         driver.findElement(loginField).sendKeys(username);
@@ -53,12 +50,15 @@ public class MainPage {
         driver.findElement(submitButton).click();
         return this;
     }
+    public MainPage currencySwitch(){
+        driver.findElement(currency).click();
+        driver.findElement(rubl).click();
+        return this;
+    }
+
     public boolean findQuitButton(){
        if (driver.findElements(quitButton).size() > 0) return true;
        return false;
-    }
-    public String getErrorText(){
-       return driver.findElement(signInPopUpWindowErrorText).getText();
     }
 
 }

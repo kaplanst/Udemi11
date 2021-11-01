@@ -1,20 +1,24 @@
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class MainPageTest extends BaseTest{
     MainPage mainPage;
 
+    public By signInPopUpWindowText = By.xpath("//p[@class='blue']");
+    public By signInPopUpWindowErrorText = By.xpath("//div[@class='text-danger']");
+    public By cartCurrency = By.xpath("//span[@class='cart-total-price']");
 
     @BeforeMethod
     void setUpMainPage(){
-        driver.get("https://vkitae.kz/");
+        driver.get(PAGE_LINK);
         mainPage = new MainPage(driver);
     }
 
     @Test
     void loginPopupWindowTest(){
-        MainPage mp = mainPage.clickLoginButton();
-        Assert.assertEquals(mp.getPopupWindowText(), "Введите логин и пароль");
+        mainPage.clickLoginButton();
+        Assert.assertEquals(driver.findElement(signInPopUpWindowText).getText(), "Введите логин и пароль");
     }
     @Test
     void loginLinkTest(){
@@ -29,19 +33,18 @@ public class MainPageTest extends BaseTest{
     }
     @Test
     void popUpLoginWindowErrorTest(){
-        MainPage mp = mainPage.signInPopupWindow(WRONG_LOGIN, WRONG_PASSWORD);
-        Assert.assertEquals(mp.getErrorText(), "Неправильно заполнены поля E-Mail и/или пароль!");
+        mainPage.signInPopupWindow(WRONG_LOGIN, WRONG_PASSWORD);
+        Assert.assertEquals(driver.findElement(signInPopUpWindowErrorText).getText(), "Неправильно заполнены поля E-Mail и/или пароль!");
     }
     @Test
     void popUpLoginWindowTest(){
         MainPage mp = mainPage.signInPopupWindow(LOGIN, PASSWORD);
         Assert.assertTrue(mp.findQuitButton());
     }
-
-    @AfterMethod
-    void Bye(){
-        driver.manage().deleteAllCookies();
-        driver.quit();
+    @Test
+    void currencySwitchTest(){
+        mainPage.currencySwitch();
+        Assert.assertEquals(driver.findElement(cartCurrency).getText(), "0.00руб.");
     }
 
 }

@@ -5,7 +5,7 @@ public class LoginPageTest extends BaseTest{
 
     @BeforeMethod
     public void SetUpLoginPage(){
-        driver.get("https://vkitae.kz/login/");
+        driver.get(PAGE_LINK + "login/");
         loginPage = new LoginPage(driver);
     }
     @Test
@@ -23,9 +23,5 @@ public class LoginPageTest extends BaseTest{
         SignUpPage signUpPage = loginPage.createAccount();
         Assert.assertEquals(signUpPage.getHeaderText(), "Быстрая регистрация");
     }
-    @AfterMethod
-    public void Bye(){
-        driver.manage().deleteAllCookies();
-        driver.quit();
-    }
+
 }

@@ -6,7 +6,7 @@ public class SignUpPageTest extends BaseTest{
 
     @BeforeMethod
     void signUpPageSetUp() {
-        driver.get("https://vkitae.kz/simpleregister/");
+        driver.get(PAGE_LINK + "simpleregister/");
         signUpPage = new SignUpPage(driver);
     }
 
@@ -24,10 +24,5 @@ public class SignUpPageTest extends BaseTest{
     void signUpInvalidPasswordTest(){
         signUpPage.registrationWithInvalidCreds(LOGIN, SHORT_PASSWORD);
         Assert.assertEquals(signUpPage.passwordErrorText(), "Пароль должен быть от 4 до 20 символов!");
-    }
-    @AfterMethod
-    void Bye(){
-        driver.manage().deleteAllCookies();
-        driver.quit();
-    }
+     }
 }
