@@ -46,5 +46,10 @@ public class MainPageTest extends BaseTest{
         mainPage.currencySwitch();
         Assert.assertEquals(driver.findElement(cartCurrency).getText(), "0.00руб.");
     }
+    @Test
+    void searchItemTest(){
+        mainPage.itemSearch(ITEM);
+    }
+
 
 }

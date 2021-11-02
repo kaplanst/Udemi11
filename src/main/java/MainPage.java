@@ -1,4 +1,5 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
 public class MainPage {
@@ -19,6 +20,8 @@ public class MainPage {
     private By quitButton = By.xpath("//*[text()='Выйти']");
     private By currency = By.xpath("//button[@class='btn btn-link dropdown-toggle  btn-currency']");
     private By rubl = By.xpath("//button[@name='RUB']");
+    private By searchField = By.xpath("//input[@name='search']");
+    private By searchButton = By.xpath("//button[@id='oct-search-button']");
 
 
     public MainPage clickLoginButton(){ // Open login popUp window
@@ -39,8 +42,15 @@ public class MainPage {
         driver.findElement(loginField).sendKeys(username);
         return this;
     }
-    public MainPage inputPassword(String password){  //insert password to password field
+    public MainPage inputPassword(String password) {  //insert password to password field
         driver.findElement(passwordField).sendKeys(password);
+        return this;
+    }
+    public MainPage itemSearch(String item){  //insert item to search field
+        driver.findElement(searchField).sendKeys(item);
+        driver.findElement(personalAccount).click();
+        driver.findElement(searchButton).click();
+
         return this;
     }
     public MainPage signInPopupWindow(String username, String password) {  //signIn using Popup Window
@@ -60,5 +70,6 @@ public class MainPage {
        if (driver.findElements(quitButton).size() > 0) return true;
        return false;
     }
+
 
 }
