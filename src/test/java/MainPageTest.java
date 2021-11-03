@@ -1,6 +1,9 @@
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.*;
+
+import java.util.List;
 
 public class MainPageTest extends BaseTest{
     MainPage mainPage;
@@ -47,9 +50,10 @@ public class MainPageTest extends BaseTest{
         Assert.assertEquals(driver.findElement(cartCurrency).getText(), "0.00руб.");
     }
     @Test
-    void searchItemTest(){
+    void searchItemTest() throws InterruptedException {
         mainPage.itemSearch(ITEM);
+        List<WebElement> serCheck = driver.findElements(By.xpath("//div[@id='content']//h4/a"));
+        Assert.assertTrue(serCheck.size() > 0);
+        for (WebElement i : serCheck) Assert.assertTrue(i.getText().toLowerCase().contains(ITEM));
     }
-
-
 }

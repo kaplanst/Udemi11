@@ -2,6 +2,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainPage {
     private WebDriver driver;
 
@@ -46,9 +48,9 @@ public class MainPage {
         driver.findElement(passwordField).sendKeys(password);
         return this;
     }
-    public MainPage itemSearch(String item){  //insert item to search field
+    public MainPage itemSearch(String item) throws InterruptedException {  //insert item to search field
         driver.findElement(searchField).sendKeys(item);
-        driver.findElement(personalAccount).click();
+        Thread.sleep(2000);
         driver.findElement(searchButton).click();
 
         return this;
