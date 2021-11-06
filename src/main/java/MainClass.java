@@ -1,7 +1,9 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +18,12 @@ public class MainClass {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://rifle.com");
-        driver.findElement(By.xpath("//*[@id=\"cssmenu\"]/ul/li[1]/ul/li[2]/a")).click();
+        driver.get("https://vkitae.kz/");
+        Actions actions = new Actions(driver);
 
-        }
-
+        actions.moveToElement(driver.findElement(By.xpath("//a[@href='javascript:void(0);']"))).build().perform();
+        actions.moveToElement(driver.findElement(By.xpath("//li[@class=\"second-level-li has-child\"]/a[text()='Новинки']"))).build().perform();
+        driver.findElement(By.xpath("//a[@href=\"https://vkitae.kz/new_product/novinki-odezhdy/\"]")).click();
+    }
 
 }
