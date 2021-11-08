@@ -19,11 +19,18 @@ public class MainClass {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz/");
-        Actions actions = new Actions(driver);
-
-        actions.moveToElement(driver.findElement(By.xpath("//a[@href='javascript:void(0);']"))).build().perform();
-        actions.moveToElement(driver.findElement(By.xpath("//li[@class=\"second-level-li has-child\"]/a[text()='Новинки']"))).build().perform();
-        driver.findElement(By.xpath("//a[@href=\"https://vkitae.kz/new_product/novinki-odezhdy/\"]")).click();
+        String[] arr = {"Популярные товары",
+                "Новинки товара-vkitae.kz",
+                "Все акции",
+                "Уцененный товар",
+                "Секреты долголетия - vkitae.kz",
+                "Как оформить заказ на сайте vkitae.kz"};
+        for (int i = 2; i <= 8; i++) {
+        List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
+            allMenu.get(i).click();
+            if (arr[i-2].equals(driver.getTitle())) System.out.println("Принято");
+        }
     }
+
 
 }
