@@ -1,11 +1,15 @@
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+
+import java.util.List;
 
 public class Menu {
 
     WebDriver driver;
     public Menu(WebDriver driver) {this.driver = driver;    }
+    public static String PAGE_LINK = "https://vkitae.kz/";
 
 
     public By items = By.xpath("//a[@href='javascript:void(0);']");
@@ -29,5 +33,14 @@ public class Menu {
     }
     public String getHeaderText() {
         return driver.findElement(HEADER_TEXT).getText();
+    }
+    public boolean menuCheck(String[] buttons, By link) {
+        for (int i = 0; i < buttons.length; i++) {
+            List<WebElement> topMenu = driver.findElements(link);
+            topMenu.get(i).click();
+            System.out.println(driver.getCurrentUrl() +"  "+ PAGE_LINK + buttons[i]);
+            if (!driver.getCurrentUrl().equals(PAGE_LINK + buttons[i])) return false;
+        }
+        return true;
     }
 }

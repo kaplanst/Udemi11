@@ -13,6 +13,8 @@ public class MenuTest extends BaseTest{
 
     Menu menu;
     public static final By HEADER_TEXT = By.xpath("//div[@class='col-sm-12']/h1");
+    public static final By TOP_MENU = By.xpath("//ul[@class='list-inline top-left-info-links']/li/a");
+
 
     @BeforeMethod
     public void setUpPage() {
@@ -34,14 +36,30 @@ public class MenuTest extends BaseTest{
         Assert.assertEquals(menu.getHeaderText(), "Популярные товары");
     }
     @Test
-    public void menuTest() throws InterruptedException {
-        List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
-        for (int i = 2; i <= 8; i++) {
-            allMenu.get(i).click();
-            Thread.sleep(2000);
-
-            System.out.println(driver.getTitle());
-            Thread.sleep(2000);
+    public void menuTest() {
+        String[] arr = {"Популярные товары",
+                "Новинки товара-vkitae.kz",
+                "Все акции",
+                "Уцененный товар",
+                "Секреты долголетия - vkitae.kz",
+                "Как оформить заказ на сайте vkitae.kz"};
+        for (int i = 0; i < arr.length; i++) {
+            List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
+            allMenu.get(i+2).click();
+            Assert.assertTrue(arr[i].equals(driver.getTitle()));
         }
+
+    }
+    @Test
+    public void topMenuTest() {
+        String[] urls = {"tovary-optom-iz-kitaya", "dostavka", "oplata", "contact-us/", "reviews/"};
+        Assert.assertTrue(menu.menuCheck(urls, TOP_MENU));
+//        for (int i = 0; i < urls.length; i++) {
+//            List<WebElement> topMenu = driver.findElements(By.xpath("//ul[@class='list-inline top-left-info-links']/li/a"));
+//            topMenu.get(i).click();
+//            Assert.assertEquals(driver.getCurrentUrl(), PAGE_LINK + urls[i]);
+//
+//        }
+
     }
 }

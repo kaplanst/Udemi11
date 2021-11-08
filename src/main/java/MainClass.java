@@ -19,15 +19,18 @@ public class MainClass {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz/");
-
-        List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
+        String[] arr = {"Популярные товары",
+                "Новинки товара-vkitae.kz",
+                "Все акции",
+                "Уцененный товар",
+                "Секреты долголетия - vkitae.kz",
+                "Как оформить заказ на сайте vkitae.kz"};
         for (int i = 2; i <= 8; i++) {
-            System.out.println(clic(allMenu.get(i)));
+        List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
+            allMenu.get(i).click();
+            if (arr[i-2].equals(driver.getTitle())) System.out.println("Принято");
         }
     }
-    public static String clic (WebElement web){
-        web.click();
-        return driver.getTitle();
-    }
+
 
 }
