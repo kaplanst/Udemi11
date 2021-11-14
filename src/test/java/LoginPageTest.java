@@ -2,14 +2,13 @@ import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class LoginPageTest extends BaseTest{
-//    LoginPage loginPage;
-//
-//    @BeforeMethod
-//    public void SetUpLoginPage(){
-//        driver.get(PAGE_LINK + "login/");
-//        loginPage = new LoginPage(driver);
-//    }
-    //    @Test
+
+    @BeforeMethod
+    public void SetUpLoginPage(){
+        driver.get(PAGE_LINK + "login/");
+
+    }
+//        @Test
 //    void loginLinkTest(){
 //        LoginPage loginPage = mainPage.clickSignUpLink();
 //        Assert.assertEquals(loginPage.getRegisteredUserText(), "Я уже зарегистрирован");
