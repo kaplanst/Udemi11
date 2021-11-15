@@ -82,12 +82,8 @@ public class MainPageTest extends BaseTest{
 
     @Test
     public void menuTest() {
-        String[] arr = {"Популярные товары",
-                "Новинки товара-vkitae.kz",
-                "Все акции",
-                "Уцененный товар",
-                "Секреты долголетия - vkitae.kz",
-                "Как оформить заказ на сайте vkitae.kz"};
+        String[] arr = {"Популярные товары", "Новинки товара-vkitae.kz", "Все акции",
+                "Уцененный товар", "Секреты долголетия - vkitae.kz", "Как оформить заказ на сайте vkitae.kz"};
         for (int i = 0; i < arr.length; i++) {
             List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
             allMenu.get(i+2).click();
@@ -103,6 +99,10 @@ public class MainPageTest extends BaseTest{
             topMenu.get(i).click();
             Assert.assertEquals(driver.getCurrentUrl(), PAGE_LINK + urls[i]);
         }
-
       }
+    @Test
+    void loginLinkTest(){
+        driver.findElement(By.xpath("//ul[@class='list-unstyled']//a[@href='https://vkitae.kz/index.php?route=account/account']")).click();
+        Assert.assertTrue(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0);
+    }
 }
