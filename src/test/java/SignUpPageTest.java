@@ -1,21 +1,22 @@
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
 public class SignUpPageTest extends BaseTest{
-//      SignUpPage signUpPage;
-//
-//    @BeforeMethod
-//    void signUpPageSetUp() {
-//        driver.get(PAGE_LINK + "simpleregister/");
-//        signUpPage = new SignUpPage(driver);
-//    }
-//
-    //    @Test
-//    void signUpInvalidTest(){
-//        SignUpPage signUpPage = mainPage.clickSignUpButton();
-//        signUpPage.registrationWithInvalidCreds(LOGIN, WRONG_PASSWORD);
-//        Assert.assertEquals(signUpPage.existingPhoneErrorText(), "Такой номер уже зарегистрирован!\n" + "×");
-//    }
+
+    @BeforeMethod
+    void signUpPageSetUp() {
+        driver.get(PAGE_LINK + "simpleregister/");
+    }
+
+    @Test
+    void signUpInvalidTest(){
+        driver.findElement(By.xpath("//input[@id='register_telephone']")).sendKeys(LOGIN);
+        driver.findElement(By.xpath("//input[@id='register_password']")).sendKeys(WRONG_PASSWORD);
+        driver.findElement(By.xpath("//input[@id='register_confirm_password']")).sendKeys(WRONG_PASSWORD);
+        driver.findElement(By.xpath("//a[@id='simpleregister_button_confirm']")).click();
+        Assert.assertEquals(driver.findElement(By.xpath("//*[@id='pp_phone-error']")).getText(), "Такой номер уже зарегистрирован!\n" + "×");
+    }
 //    @Test
 //    void confirmPassFieldTest(){
 //        signUpPage.inpuConfirmPassword(WRONG_PASSWORD);
