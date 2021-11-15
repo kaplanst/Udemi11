@@ -1,13 +1,13 @@
+import ServicePack.ServiceClass;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-public class LoginPageTest extends BaseTest{
+public class LoginPageTest extends BaseTest {
 
     @BeforeMethod
     public void SetUpLoginPage(){
         driver.get(PAGE_LINK + "login/");
-
     }
 
     @Test
@@ -16,11 +16,10 @@ public class LoginPageTest extends BaseTest{
         Assert.assertTrue(driver.findElement(By.xpath("//*[text()=' Неправильно заполнены поля E-Mail и/или пароль!']")).isDisplayed());
     }
     @Test
-    public void loginWithIncorrectCreds(){
-        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(WRONG_LOGIN);
-        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(WRONG_PASSWORD);
-        driver.findElement(By.xpath("//input[@class='oct-button']")).click();
-        Assert.assertTrue(driver.findElement(By.xpath("//*[text()=' Неправильно заполнены поля E-Mail и/или пароль!']")).isDisplayed());
+    public void loginWithIncorrectCreds() throws InterruptedException {
+        serviceClass.signIn(WRONG_LOGIN, WRONG_PASSWORD);
+        Thread.sleep(1000);
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@class='alert alert-danger']")).isDisplayed());
     }
 
     @Test
@@ -31,10 +30,7 @@ public class LoginPageTest extends BaseTest{
 
     @Test
     public void loginTest(){
-        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(LOGIN);
-        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(PASSWORD);
-        driver.findElement(By.xpath("//input[@class='oct-button']")).click();
+        serviceClass.signIn(LOGIN, PASSWORD);
         Assert.assertTrue((driver.findElements(By.xpath("//*[text()='Выйти']")).size() > 0));
     }
-
 }
