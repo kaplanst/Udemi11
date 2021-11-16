@@ -15,26 +15,26 @@ public class MainPageTest extends BaseTest {
 
     @Test
     void loginPopupWindowTest(){
-        loginPopupWindow();
+        serviceClass.loginPopupWindow();
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='popup-text']/p")).getText(), "Введите логин и пароль");
     }
 
     @Test
     void popUpLoginWindowEmptyTest(){
-        loginPopupWindow();
+        serviceClass.loginPopupWindow();
         driver.findElement(By.xpath("//button[@id='popup-login-button']")).click();
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='text-danger']")).getText(), "Неправильно заполнены поля E-Mail и/или пароль!");
     }
 
     @Test
     void popUpLoginWindowIncorrectTest(){
-        popUpLoginWindowInput(WRONG_LOGIN, WRONG_PASSWORD);
+        serviceClass.popUpLoginWindowInput(WRONG_LOGIN, WRONG_PASSWORD);
         Assert.assertEquals(driver.findElement(By.xpath("//div[@class='text-danger']")).getText(), "Неправильно заполнены поля E-Mail и/или пароль!");
     }
 
     @Test
     void popUpLoginWindowTest(){
-        popUpLoginWindowInput(LOGIN, PASSWORD);
+        serviceClass.popUpLoginWindowInput(LOGIN, PASSWORD);
         Assert.assertTrue((driver.findElements(By.xpath("//*[text()='Выйти']")).size() > 0));
     }
 
@@ -90,19 +90,10 @@ public class MainPageTest extends BaseTest {
             Assert.assertEquals(driver.getCurrentUrl(), PAGE_LINK + urls[i]);
         }
       }
+
     @Test
     void loginLinkTest(){
         driver.findElement(By.xpath("//ul[@class='list-unstyled']//a[@href='https://vkitae.kz/index.php?route=account/account']")).click();
         Assert.assertTrue(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0);
-    }
-    void loginPopupWindow() {
-        driver.findElement(By.xpath("//span[@class='hidden-xs hidden-sm hidden-md']")).click();
-        driver.findElement(By.xpath("//a[@onclick='get_oct_popup_login();']")).click();
-    }
-    void popUpLoginWindowInput(String login, String password) {
-        loginPopupWindow();
-        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(login);
-        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
-        driver.findElement(By.xpath("//button[@id='popup-login-button']")).click();
     }
 }

@@ -22,4 +22,16 @@ public class ServiceClass {
         driver.findElement(By.xpath("//a[@id='simpleregister_button_confirm']")).click();
     }
 
+    public void loginPopupWindow() {
+        driver.findElement(By.xpath("//span[@class='hidden-xs hidden-sm hidden-md']")).click();
+        driver.findElement(By.xpath("//a[@onclick='get_oct_popup_login();']")).click();
+    }
+
+    public void popUpLoginWindowInput(String login, String password) {
+        loginPopupWindow();
+        driver.findElement(By.xpath("//input[@name='email']")).sendKeys(login);
+        driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
+        driver.findElement(By.xpath("//button[@id='popup-login-button']")).click();
+    }
+
 }
