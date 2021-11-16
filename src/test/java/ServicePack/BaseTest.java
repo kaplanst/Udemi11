@@ -1,3 +1,5 @@
+package ServicePack;
+
 import ServicePack.ServiceClass;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
@@ -21,7 +23,7 @@ public class BaseTest {
     public ServiceClass serviceClass;
 
     @BeforeMethod
-    void setUp() {
+    public void setUp() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().window().maximize();

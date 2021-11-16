@@ -1,4 +1,4 @@
-import ServicePack.ServiceClass;
+import ServicePack.BaseTest;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.*;

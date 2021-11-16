@@ -1,3 +1,4 @@
+import ServicePack.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
@@ -29,7 +30,7 @@ public class MainPageTest extends BaseTest {
     @Test
     void popUpLoginWindowIncorrectTest(){
         serviceClass.popUpLoginWindowInput(WRONG_LOGIN, WRONG_PASSWORD);
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='text-danger']")).getText(), "Неправильно заполнены поля E-Mail и/или пароль!");
+        Assert.assertTrue(driver.findElement(By.xpath("//div[@class='text-danger']")).isDisplayed());
     }
 
     @Test
