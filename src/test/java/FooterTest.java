@@ -20,5 +20,7 @@ public class FooterTest extends BaseTest {
         String tempo = fo1.getText();
         fo1.click();
         Assert.assertEquals(tempo, driver.findElement(By.xpath("//h1")).getText());
-    }
+
+        }
+
 }
