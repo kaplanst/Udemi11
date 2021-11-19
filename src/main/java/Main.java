@@ -4,6 +4,7 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -15,22 +16,22 @@ public class Main {
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz");
+
         List<WebElement> foot = driver.findElements(By.xpath("//footer//div[2]/div[1]/ul/li/a"));
-        for (WebElement i: foot) {
-            i.click();
+        String link;
+        for (int i = 0; i < 4; i++) {
+
+            link = String.format("//footer//div[2]/div[1]/ul/li[%S]/a", i);
+            WebElement dr = driver.findElement(By.xpath(link));
+            clicker(dr);
+            System.out.println(driver.findElement(By.xpath("//h1")).getText());
+
+
         }
-
-
-
-//        driver.findElement(By.xpath("//footer//div[2]/div[1]/ul/li[1]/a")).click();
-//        driver.findElement(By.xpath("//footer//div[2]/div[1]/ul/li[2]/a")).click();
-//        driver.findElement(By.xpath("//footer//div[2]/div[1]/ul/li[3]/a")).click();
-//        driver.findElement(By.xpath("//footer//div[2]/div[1]/ul/li[4]/a")).click();
-
-
-
-
-
-
-    }
+   }
+   public static String clicker(WebElement linka){
+        linka.click();
+       System.out.println(linka.getText());
+       return linka.getText();
+       }
 }
