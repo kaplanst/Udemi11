@@ -33,7 +33,7 @@ public class BaseTest {
     }
     @AfterMethod
     public void Bye(){
-//        driver.manage().deleteAllCookies();
+        driver.manage().deleteAllCookies();
         driver.quit();
     }
 
