@@ -15,12 +15,18 @@ public class FooterTest extends BaseTest {
     }
 
     @Test
-    void leftColumnMenuTest(){
-        WebElement fo1 = driver.findElement(By.xpath("//footer//div[2]/div[1]/ul/li[1]/a"));
-        String tempo = fo1.getText();
-        fo1.click();
-        Assert.assertEquals(tempo, driver.findElement(By.xpath("//h1")).getText());
-
+    void leftColumnMenuTest() {
+        for (int i = 1; i < 5; i++) {
+            String str = "//footer//div[2]/div[1]/ul/li[" + i + "]/a";
+            WebElement fo1 = driver.findElement(By.xpath(str));
+            String tempo = fo1.getText();
+            fo1.click();
+            Assert.assertEquals(tempo, driver.findElement(By.xpath("//h1")).getText());
         }
-
+    }
+//    public String MenuTest(String menu){
+//        WebElement fo1 = driver.findElement(By.xpath(menu));
+//        fo1.click();
+//        return driver.findElement(By.xpath("//h1")).getText();
+//        }
 }
