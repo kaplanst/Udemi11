@@ -10,6 +10,19 @@ import java.util.concurrent.TimeUnit;
 
 public class FooterTest extends BaseTest {
 
+    static void subscribeWindow() throws InterruptedException {
+        Thread.sleep(5000);
+        driver.findElement(By.xpath("//button[@sp-show-form='198899']")).click();
+    }
+
+    static void subscribeSubmitButton() {
+        driver.findElement(By.xpath("//*[@class='sp-form-outer sp-popup-outer sp-show']//*[@id='sp-b3bb3680-4457-4017-87fd-53acaa6fbcbe']")).click();
+    }
+
+    static void subscribeLoginField(String email) {
+        driver.findElement(By.xpath("//*[@class='sp-form-outer sp-popup-outer sp-show']//*[@placeholder='Введите ваш Email']")).sendKeys(email);
+    }
+
     @BeforeMethod
     public void SetUpLoginPage(){
         driver.get(PAGE_LINK);
@@ -39,5 +52,41 @@ public class FooterTest extends BaseTest {
             int links = driver.findElements(By.xpath("//*[text()='"+ tempo + "']")).size();
             Assert.assertTrue(links > 3);
         }
+    }
+    @Test
+    void headersMenuTest(){
+        String[] headersTemplanes = {"", "ИНФОРМАЦИЯ", "ЛИЧНЫЙ КАБИНЕТ", "НАШИ КОНТАКТЫ", "УЗНАЙТЕ О СКИДКА И АКЦИЯХ ПЕРВЫМИ!", "МЫ В СОЦСЕТЯХ"};
+        List<WebElement> headers = driver.findElements(By.xpath("//*[@class='h5']"));
+        for (int i = 0; i < headers.size(); i++) {
+            Assert.assertEquals(headers.get(i).getText(), headersTemplanes[i]);
+        }
+    }
+    @Test
+    void subscribeWindowTest() throws InterruptedException {
+        subscribeWindow();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@id='sp-form-198899']/div/form/div[1]/input")).isDisplayed());
+    }
+
+    @Test
+    void subscribeWindowEmptyTest() throws InterruptedException {
+        subscribeWindow();
+        subscribeSubmitButton();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Обязательное поле']")).isDisplayed());
+    }
+
+    @Test
+    void subscribeWindowWrongTest() throws InterruptedException {
+        subscribeWindow();
+        subscribeLoginField(WRONG_LOGIN);
+        subscribeSubmitButton();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Неверный email-адрес']")).isDisplayed());
+    }
+
+    @Test
+    void subscribeWindowFakeTest() throws InterruptedException {
+        subscribeWindow();
+        subscribeLoginField("toyumba36@gmail.com");
+        subscribeSubmitButton();
+        Assert.assertTrue(driver.findElement(By.xpath("//h3")).isDisplayed());
     }
 }
