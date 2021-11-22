@@ -4,9 +4,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class FooterTest extends BaseTest {
 
@@ -24,7 +22,7 @@ public class FooterTest extends BaseTest {
     }
 
     @BeforeMethod
-    public void SetUpLoginPage(){
+    public void SetUpLoginPage() {
         driver.get(PAGE_LINK);
     }
 
@@ -49,18 +47,20 @@ public class FooterTest extends BaseTest {
             String tempo = foot2.getText();
             foot2.click();
             System.out.println(tempo);
-            int links = driver.findElements(By.xpath("//*[text()='"+ tempo + "']")).size();
+            int links = driver.findElements(By.xpath("//*[text()='" + tempo + "']")).size();
             Assert.assertTrue(links > 3);
         }
     }
+
     @Test
-    void headersMenuTest(){
+    void headersMenuTest() {
         String[] headersTemplanes = {"", "ИНФОРМАЦИЯ", "ЛИЧНЫЙ КАБИНЕТ", "НАШИ КОНТАКТЫ", "УЗНАЙТЕ О СКИДКА И АКЦИЯХ ПЕРВЫМИ!", "МЫ В СОЦСЕТЯХ"};
         List<WebElement> headers = driver.findElements(By.xpath("//*[@class='h5']"));
         for (int i = 0; i < headers.size(); i++) {
             Assert.assertEquals(headers.get(i).getText(), headersTemplanes[i]);
         }
     }
+
     @Test
     void subscribeWindowTest() throws InterruptedException {
         subscribeWindow();
@@ -88,5 +88,19 @@ public class FooterTest extends BaseTest {
         subscribeLoginField("toyumba36@gmail.com");
         subscribeSubmitButton();
         Assert.assertTrue(driver.findElement(By.xpath("//h3")).isDisplayed());
+    }
+
+    @Test
+    void watsappButtonTest() {
+        String url = newTab("//*[@href='//wa.me/77765440055']");
+        Assert.assertEquals(url, "https://api.whatsapp.com/send/?phone=77765440055&text&app_absent=0");
+    }
+
+    public String newTab(String url) {
+        driver.findElement(By.xpath(url)).click();
+        for (String tab : driver.getWindowHandles()) {
+            driver.switchTo().window(tab);
+        }
+        return driver.getCurrentUrl();
     }
 }

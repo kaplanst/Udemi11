@@ -14,11 +14,11 @@ public class Main {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get("https://vkitae.kz");
+        System.out.println(driver.getWindowHandle());
+        driver.findElement(By.xpath("//*[@href='//wa.me/77765440055']")).click();
 
-        WebDriverWait wait = new WebDriverWait(driver,30);
-        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//button[@sp-show-form='198899']")));
-        driver.findElement(By.xpath("//button[@sp-show-form='198899']")).click();
+        System.out.println(driver.getWindowHandle());
 
-
+        driver.quit();
     }
 }
