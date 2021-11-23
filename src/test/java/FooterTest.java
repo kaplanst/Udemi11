@@ -96,6 +96,12 @@ public class FooterTest extends BaseTest {
         Assert.assertEquals(url, "https://api.whatsapp.com/send/?phone=77765440055&text&app_absent=0");
     }
 
+    @Test
+    void telegramButtonTest() {
+        String url = newTab("//a[@href='//t.me/vkitae_bot']");
+        Assert.assertEquals(url, "https://t.me/vkitae_bot");
+    }
+
     public String newTab(String url) {
         driver.findElement(By.xpath(url)).click();
         for (String tab : driver.getWindowHandles()) {
