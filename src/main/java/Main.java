@@ -14,11 +14,16 @@ public class Main {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.get("https://vkitae.kz");
-        System.out.println(driver.getWindowHandle());
-        driver.findElement(By.xpath("//*[@href='//wa.me/77765440055']")).click();
-
-        System.out.println(driver.getWindowHandle());
-
-        driver.quit();
+        String mainTab = driver.getWindowHandle();
+        List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li"));
+        for (WebElement menu: right) {
+            menu.click();
+            for (String tab : driver.getWindowHandles()) {
+                driver.switchTo().window(tab);
+            }
+            System.out.println(driver.getTitle());
+            driver.close();
+            driver.switchTo().window(mainTab);
+        }
     }
 }

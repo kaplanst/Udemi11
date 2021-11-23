@@ -1,5 +1,7 @@
 import ServicePack.BaseTest;
+import ServicePack.FooterService;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
@@ -7,6 +9,7 @@ import org.testng.annotations.Test;
 import java.util.List;
 
 public class FooterTest extends BaseTest {
+
 
     static void subscribeWindow() throws InterruptedException {
         Thread.sleep(5000);
@@ -92,21 +95,36 @@ public class FooterTest extends BaseTest {
 
     @Test
     void watsappButtonTest() {
-        String url = newTab("//*[@href='//wa.me/77765440055']");
+        String url = serviceClass.newTab("//*[@href='//wa.me/77765440055']");
         Assert.assertEquals(url, "https://api.whatsapp.com/send/?phone=77765440055&text&app_absent=0");
     }
 
     @Test
     void telegramButtonTest() {
-        String url = newTab("//a[@href='//t.me/vkitae_bot']");
+        String url = serviceClass.newTab("//a[@href='//t.me/vkitae_bot']");
         Assert.assertEquals(url, "https://t.me/vkitae_bot");
     }
 
-    public String newTab(String url) {
-        driver.findElement(By.xpath(url)).click();
-        for (String tab : driver.getWindowHandles()) {
-            driver.switchTo().window(tab);
-        }
-        return driver.getCurrentUrl();
+    @Test
+    void telegramBotTest() {
+        String url = serviceClass.newTab("//*[@class='oct-messengers-telegram']");
+        Assert.assertEquals(url, "https://t.me/vkitae_bot");
     }
+
+    @Test
+    void rightMenuTest() {
+        String mainTab = driver.getWindowHandle();
+        List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li"));
+        for (WebElement menu: right) {
+            menu.click();
+            for (String tab : driver.getWindowHandles()) {
+                driver.switchTo().window(tab);
+            }
+            System.out.println(driver.getCurrentUrl());
+            driver.close();
+            driver.switchTo().window(mainTab);
+        }
+
+    }
+
 }

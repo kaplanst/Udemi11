@@ -2,6 +2,9 @@ package ServicePack;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.List;
 
 public class ServiceClass {
     public ServiceClass(WebDriver driver) {
@@ -32,6 +35,13 @@ public class ServiceClass {
         driver.findElement(By.xpath("//input[@name='email']")).sendKeys(login);
         driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
         driver.findElement(By.xpath("//button[@id='popup-login-button']")).click();
+    }
+    public String newTab(String xpath) {
+        driver.findElement(By.xpath(xpath)).click();
+        for (String tab : driver.getWindowHandles()) {
+            driver.switchTo().window(tab);
+        }
+        return driver.getCurrentUrl();
     }
 
 }
