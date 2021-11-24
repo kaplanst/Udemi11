@@ -1,12 +1,10 @@
 import ServicePack.BaseTest;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class FooterTest extends BaseTest {
 
@@ -15,11 +13,9 @@ public class FooterTest extends BaseTest {
         Thread.sleep(5000);
         driver.findElement(By.xpath("//button[@sp-show-form='198899']")).click();
     }
-
     static void subscribeSubmitButton() {
         driver.findElement(By.xpath("//*[@class='sp-form-outer sp-popup-outer sp-show']//*[@id='sp-b3bb3680-4457-4017-87fd-53acaa6fbcbe']")).click();
     }
-
     static void subscribeLoginField(String email) {
         driver.findElement(By.xpath("//*[@class='sp-form-outer sp-popup-outer sp-show']//*[@placeholder='Введите ваш Email']")).sendKeys(email);
     }
@@ -113,11 +109,8 @@ public class FooterTest extends BaseTest {
 
     @Test
     void rightMenuBunchTest() {
-        String[] templates = {"https://www.instagram.com/accounts/login/",
-        "https://www.instagram.com/accounts/login/",
-        "https://vk.com/vkitae_kz",
-        "https://ok.ru/profile/563508354228",
-        "https://www.facebook.com/aptekavkitae/"};
+        String[] templates = {"https://www.instagram.com/accounts/login/", "https://www.instagram.com/accounts/login/",
+        "https://vk.com/vkitae_kz", "https://ok.ru/profile/563508354228", "https://www.facebook.com/aptekavkitae/"};
         int i = 0;
         String mainTab = driver.getWindowHandle();
         List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li/a"));
