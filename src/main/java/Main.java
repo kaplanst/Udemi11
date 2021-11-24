@@ -21,7 +21,7 @@ public class Main {
             for (String tab : driver.getWindowHandles()) {
                 driver.switchTo().window(tab);
             }
-            System.out.println(driver.getTitle());
+            System.out.println(driver.getCurrentUrl());
             driver.close();
             driver.switchTo().window(mainTab);
         }

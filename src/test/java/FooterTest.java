@@ -1,5 +1,4 @@
 import ServicePack.BaseTest;
-import ServicePack.FooterService;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class FooterTest extends BaseTest {
 
@@ -112,19 +112,31 @@ public class FooterTest extends BaseTest {
     }
 
     @Test
-    void rightMenuTest() {
+    void rightMenuBunchTest() {
+        String[] templates = {"https://www.instagram.com/accounts/login/",
+        "https://www.instagram.com/accounts/login/",
+        "https://vk.com/vkitae_kz",
+        "https://ok.ru/profile/563508354228",
+        "https://www.facebook.com/aptekavkitae/"};
+        int i = 0;
         String mainTab = driver.getWindowHandle();
-        List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li"));
+        List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li/a"));
         for (WebElement menu: right) {
             menu.click();
             for (String tab : driver.getWindowHandles()) {
                 driver.switchTo().window(tab);
             }
-            System.out.println(driver.getCurrentUrl());
+            Assert.assertEquals(driver.getCurrentUrl(), templates[i]);
+            i++;
             driver.close();
             driver.switchTo().window(mainTab);
         }
+    }
 
+    @Test
+    void chatTest() {
+        driver.findElement(By.xpath("//*[@class='consultant-icon__img']")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[@class='consultant-icon consultant-icon_opened']")).isDisplayed());
     }
 
 }
