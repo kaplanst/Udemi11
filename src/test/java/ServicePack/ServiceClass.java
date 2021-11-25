@@ -1,9 +1,12 @@
 package ServicePack;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class ServiceClass {
@@ -36,6 +39,7 @@ public class ServiceClass {
         driver.findElement(By.xpath("//input[@name='password']")).sendKeys(password);
         driver.findElement(By.xpath("//button[@id='popup-login-button']")).click();
     }
+
     public String newTab(String xpath) {
         driver.findElement(By.xpath(xpath)).click();
         for (String tab : driver.getWindowHandles()) {
@@ -43,5 +47,19 @@ public class ServiceClass {
         }
         return driver.getCurrentUrl();
     }
+
+    public void screenshot(String nameofCurrMethod){
+        Date dateNow = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
+        String fileName = nameofCurrMethod + format.format(dateNow) + ".png";
+
+        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
+        try {
+            FileUtils.copyFile(screenshot, new File("C:\\Screenshots\\" + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }
