@@ -1,4 +1,5 @@
 import ServicePack.BaseTest;
+import com.sun.net.httpserver.Authenticator;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -7,6 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.ITestResult;
+import org.testng.Reporter;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
@@ -19,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CartTest extends BaseTest {
+
 
     @BeforeMethod
     public void SetUpLoginPage() {
@@ -62,28 +65,27 @@ public class CartTest extends BaseTest {
     }
 
     @Test
-    void loginLinkTest(){
+    void loginLinkTest() throws Exception {
         driver.findElement(By.xpath("//ul[@class='list-unstyled']//a[@href='https://vkitae.kz/index.php?route=account/account']")).click();
- //       if (!(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0)) serviceClass.screenshot("loginLinkTest");
         Assert.assertTrue(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0);
+    }
 
-    }
-    @AfterMethod //AfterMethod annotation - This method executes after every test execution
-    public void screenShot(ITestResult result) {
-        //using ITestResult.FAILURE is equals to result.getStatus then it enter into if condition
-        if (ITestResult.FAILURE == result.getStatus()) {
-            try {
-                // To create reference of TakesScreenshot
-                TakesScreenshot screenshot = (TakesScreenshot) driver;
-                // Call method to capture screenshot
-                File src = screenshot.getScreenshotAs(OutputType.FILE);
-                // Copy files to specific location
-                // result.getName() will return name of test case so that screenshot name will be same as test case name
-                FileUtils.copyFile(src, new File("C:\\Screenshots\\" + result.getName() + ".png"));
-                System.out.println("Successfully captured a screenshot");
-            } catch (Exception e) {
-                System.out.println("Exception while taking screenshot " + e.getMessage());
-            }
-        }
-    }
+//    @AfterMethod //AfterMethod annotation - This method executes after every test execution
+//    public void screenShot(ITestResult result) {
+//        //using ITestResult.FAILURE is equals to result.getStatus then it enter into if condition
+//        if (ITestResult.FAILURE == result.getStatus()) {
+//            try {
+//                // To create reference of TakesScreenshot
+//                TakesScreenshot screenshot = (TakesScreenshot) driver;
+//                // Call method to capture screenshot
+//                File src = screenshot.getScreenshotAs(OutputType.FILE);
+//                // Copy files to specific location
+//                // result.getName() will return name of test case so that screenshot name will be same as test case name
+//                FileUtils.copyFile(src, new File("C:\\Screenshots\\" + result.getName() + ".png"));
+//                System.out.println("Successfully captured a screenshot");
+//            } catch (Exception e) {
+//                System.out.println("Exception while taking screenshot " + e.getMessage());
+//            }
+//        }
+//    }
 }

@@ -12,6 +12,9 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 
 import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class BaseTest {
@@ -38,7 +41,26 @@ public class BaseTest {
     }
 
     @AfterMethod
-    public void Bye(){
+    public void ScreenShot(ITestResult result) {
+        Date dateNow = new Date();
+        SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
+        String fileName = result.getName() + "-" + format.format(dateNow) + ".png";
+        System.out.println(fileName);
+        if (ITestResult.FAILURE == result.getStatus()) {
+            try {
+                // To create reference of TakesScreenshot
+                TakesScreenshot screenshot = (TakesScreenshot) driver;
+                // Call method to capture screenshot
+                File src = screenshot.getScreenshotAs(OutputType.FILE);
+                // Copy files to specific location
+                // result.getName() will return name of test case so that screenshot name will be same as test case name
+                FileUtils.copyFile(src, new File("C:\\Screenshots\\" + fileName));
+                System.out.println("Successfully captured a screenshot");
+            } catch (Exception e) {
+                System.out.println("Exception while taking screenshot " + e.getMessage());
+            }
+        }
+
         driver.manage().deleteAllCookies();
         driver.quit();
     }
