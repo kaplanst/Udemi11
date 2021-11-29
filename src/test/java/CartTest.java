@@ -1,4 +1,5 @@
 import ServicePack.BaseTest;
+import com.sun.net.httpserver.Authenticator;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
@@ -6,6 +7,10 @@ import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
+import org.testng.ITestResult;
+import org.testng.Reporter;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
@@ -16,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 public class CartTest extends BaseTest {
+
 
     @BeforeMethod
     public void SetUpLoginPage() {
@@ -53,17 +59,15 @@ public class CartTest extends BaseTest {
         for (int i = 0; i < urls.length; i++) {
             List<WebElement> topMenu = driver.findElements(By.xpath("//ul[@class='list-inline top-left-info-links']/li/a"));
             topMenu.get(i).click();
-            if (driver.getCurrentUrl().equals(PAGE_LINK + urls[i])) serviceClass.screenshot("topMenuTest");
+  //          if (driver.getCurrentUrl().equals(PAGE_LINK + urls[i])) serviceClass.screenshot("topMenuTest");
             Assert.assertEquals(driver.getCurrentUrl(), PAGE_LINK + urls[i]);
         }
     }
 
     @Test
-    void loginLinkTest(){
+    void loginLinkTest() throws Exception {
         driver.findElement(By.xpath("//ul[@class='list-unstyled']//a[@href='https://vkitae.kz/index.php?route=account/account']")).click();
-        if (!(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0)) serviceClass.screenshot("loginLinkTest");
         Assert.assertTrue(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0);
-
     }
 
 }

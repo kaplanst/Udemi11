@@ -2,6 +2,7 @@ package ServicePack;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
+import org.testng.ITestResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -47,19 +48,5 @@ public class ServiceClass {
         }
         return driver.getCurrentUrl();
     }
-
-    public void screenshot(String nameofCurrMethod){
-        Date dateNow = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
-        String fileName = nameofCurrMethod + format.format(dateNow) + ".png";
-
-        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileUtils.copyFile(screenshot, new File("C:\\Screenshots\\" + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 
 }

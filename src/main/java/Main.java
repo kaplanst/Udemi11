@@ -22,10 +22,10 @@ public class Main {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz");
-//        Thread.sleep(3000);
+
         driver.findElement(By.xpath("//span[@class='hidden-xs hidden-sm hidden-md']")).click();
         driver.findElement(By.xpath("//a[@onclick='get_oct_popup_login();']")).click();
-
+        Thread.sleep(1000);
         String nameofCurrMethod = new Exception().getStackTrace()[0].getMethodName();
         Date dateNow = new Date();
         SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
