@@ -22,21 +22,9 @@ public class Main {
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get("https://vkitae.kz");
+        int items = Integer.valueOf(driver.findElement(By.xpath("//*[@class='count-quantity']")).getText());
+        System.out.println(items);
 
-        driver.findElement(By.xpath("//span[@class='hidden-xs hidden-sm hidden-md']")).click();
-        driver.findElement(By.xpath("//a[@onclick='get_oct_popup_login();']")).click();
-        Thread.sleep(1000);
-        String nameofCurrMethod = new Exception().getStackTrace()[0].getMethodName();
-        Date dateNow = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
-        String fileName = nameofCurrMethod + format.format(dateNow) + ".png";
-
-        File screenshot = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
-        try {
-            FileUtils.copyFile(screenshot, new File("C:\\Screenshots\\" + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         driver.quit();
     }
 }

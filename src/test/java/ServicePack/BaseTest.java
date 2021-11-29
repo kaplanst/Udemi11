@@ -45,13 +45,16 @@ public class BaseTest {
         Date dateNow = new Date();
         SimpleDateFormat format = new SimpleDateFormat("hh_mm_ss");
         String fileName = result.getName() + "-" + format.format(dateNow) + ".png";
-        System.out.println(fileName);
         if (ITestResult.FAILURE == result.getStatus()) {
             try {
                 TakesScreenshot screenshot = (TakesScreenshot) driver;
                 File src = screenshot.getScreenshotAs(OutputType.FILE);
-                FileUtils.copyFile(src, new File("C:\\Screenshots\\" + fileName));
-            } catch (Exception e){}
+                FileUtils.copyFile(src, new File("C:/Screenshots/" + fileName));
+                System.out.println("Screenshot file '"  + fileName + "' has been created ");
+            } catch (Exception e){
+                System.out.println("Impossible to take screenshot");
+
+            }
         }
 
         driver.manage().deleteAllCookies();

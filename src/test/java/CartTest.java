@@ -1,26 +1,26 @@
 import ServicePack.BaseTest;
-import com.sun.net.httpserver.Authenticator;
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.Keys;
 import org.testng.Assert;
-import org.testng.ITestResult;
-import org.testng.Reporter;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 
 public class CartTest extends BaseTest {
+
+    private static final By CONTINUE_BUTTON = By.xpath("//*[text()='Продолжить покупки']");
+
+    private static final String ITEMS_AMOUNT = "8";
+
+    private static void cartPopupWindow(){
+        driver.findElement(By.xpath("//span[@id='cart-total']/i")).click();
+    }
+
+    private static void cartContinueButtonClick(){
+        driver.findElement(CONTINUE_BUTTON).click();
+    }
 
 
     @BeforeMethod
@@ -28,46 +28,39 @@ public class CartTest extends BaseTest {
         driver.get(PAGE_LINK);
     }
     @Test
-    public void itemMenuTest() {
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath("//a[@href='javascript:void(0);']"))).build().perform();
-        actions.moveToElement(driver.findElement(By.xpath("//li[@class='second-level-li has-child']/a[text()='Новинки']"))).build().perform();
-        driver.findElement(By.xpath("//a[@href='https://vkitae.kz/new_product/novinki-odezhdy/']")).click();
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='col-sm-12']/h1")).getText(), "Новинки одежды");
+    public void cartPopupWindowTest() {
+        cartPopupWindow();
+        Assert.assertTrue(driver.findElement(CONTINUE_BUTTON).isDisplayed());
     }
 
     @Test
-    public void popularItemsTest(){
-        driver.findElement(By.xpath("//a[@href='https://vkitae.kz/popular_products/']")).click();
-        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='col-sm-12']/h1")).getText(), "Популярные товары");
+    public void cartPopupWindowCloseTest() {
+        cartPopupWindow();
+        cartContinueButtonClick();
+        Assert.assertFalse(driver.findElement(CONTINUE_BUTTON).isDisplayed());
     }
 
     @Test
-    public void menuTest() {
-        String[] arr = {"Популярные товары", "Новинки товара-vkitae.kz", "Все акции",
-                "Уцененный товар", "Секреты долголетия - vkitae.kz", "Как оформить заказ на сайте vkitae.kz"};
-        for (int i = 0; i < arr.length; i++) {
-            List<WebElement> allMenu = driver.findElements(By.xpath("//ul[@class='nav navbar-nav flex menu']/li/a"));
-            allMenu.get(i+2).click();
-            Assert.assertTrue(arr[i].equals(driver.getTitle()));
-        }
+    public void addItemToCartTest() {
+        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
+        driver.findElement(By.xpath("//a[@id='button-cart']")).click();
+        cartContinueButtonClick();
+        String items = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
+        Assert.assertEquals(items, "1");
     }
 
     @Test
-    public void topMenuTest() {
-        String[] urls = {"tovary-optom-iz-kitaya", "dostavka", "oplata", "contact-us/", "reviews/"};
-        for (int i = 0; i < urls.length; i++) {
-            List<WebElement> topMenu = driver.findElements(By.xpath("//ul[@class='list-inline top-left-info-links']/li/a"));
-            topMenu.get(i).click();
-  //          if (driver.getCurrentUrl().equals(PAGE_LINK + urls[i])) serviceClass.screenshot("topMenuTest");
-            Assert.assertEquals(driver.getCurrentUrl(), PAGE_LINK + urls[i]);
-        }
-    }
+    public void addSeveralSameItemsToCartTest() {
+        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
-    @Test
-    void loginLinkTest() throws Exception {
-        driver.findElement(By.xpath("//ul[@class='list-unstyled']//a[@href='https://vkitae.kz/index.php?route=account/account']")).click();
-        Assert.assertTrue(driver.findElements(By.xpath("//*[text()='Я уже зарегистрирован']")).size() > 0);
-    }
+        driver.findElement(By.xpath("//a[@id='button-cart']")).click();
 
+        driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT);
+        cartContinueButtonClick();
+
+
+        String items = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
+        Assert.assertEquals(items, ITEMS_AMOUNT);
+    }
 }
