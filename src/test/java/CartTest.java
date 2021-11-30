@@ -54,13 +54,10 @@ public class CartTest extends BaseTest {
         driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
         driver.findElement(By.xpath("//a[@id='button-cart']")).click();
         driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT, Keys.ENTER);
-        Thread.sleep(1000);
-
-        cartContinueButtonClick();
-
-
-
-        String items = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
-        Assert.assertEquals(items, ITEMS_AMOUNT);
+        Thread.sleep(500);
+        String itemsInList = driver.findElement(By.xpath("//*[@class='popup-text']//span[1]")).getText();
+        String itemsInCart = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
+        Assert.assertEquals(itemsInList, ITEMS_AMOUNT + " товаров");
+        Assert.assertEquals(itemsInCart, ITEMS_AMOUNT);
     }
 }
