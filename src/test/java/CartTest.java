@@ -50,14 +50,14 @@ public class CartTest extends BaseTest {
     }
 
     @Test
-    public void addSeveralSameItemsToCartTest() {
+    public void addSeveralSameItemsToCartTest() throws InterruptedException {
         driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
         driver.findElement(By.xpath("//a[@id='button-cart']")).click();
+        driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT, Keys.ENTER);
+        Thread.sleep(1000);
 
-        driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT);
         cartContinueButtonClick();
+
 
 
         String items = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
