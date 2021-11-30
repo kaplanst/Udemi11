@@ -11,13 +11,26 @@ public class CartTest extends BaseTest {
     private static final By CONTINUE_BUTTON = By.xpath("//*[text()='Продолжить покупки']");
 
     private static final String ITEMS_AMOUNT = "8";
+    private static final String ITEM_1 = "https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt";
+    private static final String ITEM_2 = "https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3624-kapsuly-l-karnitin";
+    private static final String ITEM_3 = "https://vkitae.kz/rossiyskaya-kosmetika/rus-uhod-za-telom/rus-skraby-i-pilingi/6297-compliment";
 
-    private static void cartPopupWindow(){
+
+    private static void cartPopupWindow() {
         driver.findElement(By.xpath("//span[@id='cart-total']/i")).click();
     }
 
-    private static void cartContinueButtonClick(){
+    private static void cartContinueButtonClick() {
         driver.findElement(CONTINUE_BUTTON).click();
+    }
+
+    private static void checkoutButtonClick() {
+        driver.findElement(By.xpath("//a[@href='https://vkitae.kz/simplecheckout/']")).click();
+    }
+
+    private static void addToCart(String item) {
+        driver.get(item);
+        driver.findElement(By.xpath("//a[@id='button-cart']")).click();
     }
 
 
@@ -25,6 +38,7 @@ public class CartTest extends BaseTest {
     public void SetUpLoginPage() {
         driver.get(PAGE_LINK);
     }
+
     @Test
     public void cartPopupWindowTest() {
         cartPopupWindow();
@@ -40,8 +54,7 @@ public class CartTest extends BaseTest {
 
     @Test
     public void addItemToCartTest() {
-        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
-        driver.findElement(By.xpath("//a[@id='button-cart']")).click();
+        addToCart(ITEM_1);
         cartContinueButtonClick();
         String items = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
         Assert.assertEquals(items, "1");
@@ -49,8 +62,7 @@ public class CartTest extends BaseTest {
 
     @Test
     public void addSeveralSameItemsToCartTest() throws InterruptedException {
-        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
-        driver.findElement(By.xpath("//a[@id='button-cart']")).click();
+        addToCart(ITEM_1);
         driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT, Keys.ENTER);
         Thread.sleep(500);
         String itemsInList = driver.findElement(By.xpath("//*[@class='popup-text']//span[1]")).getText();
@@ -58,4 +70,21 @@ public class CartTest extends BaseTest {
         Assert.assertEquals(itemsInList, ITEMS_AMOUNT + " товаров");
         Assert.assertEquals(itemsInCart, ITEMS_AMOUNT);
     }
+
+    @Test
+    public void transferToCheckoutPageTest() {
+        addToCart(ITEM_1);
+        checkoutButtonClick();
+        Assert.assertEquals(driver.findElement(By.xpath("//h1")).getText(), "Оформление заказа");
+    }
+
+    @Test
+    public void addItemsToCheckoutPageTest() {
+        addToCart(ITEM_1);
+        addToCart(ITEM_2);
+        addToCart(ITEM_3);
+        checkoutButtonClick();
+
+    }
+
 }
