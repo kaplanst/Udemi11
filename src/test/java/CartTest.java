@@ -5,6 +5,10 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 
 public class CartTest extends BaseTest {
 
@@ -14,7 +18,7 @@ public class CartTest extends BaseTest {
     private static final String ITEM_1 = "https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt";
     private static final String ITEM_2 = "https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3624-kapsuly-l-karnitin";
     private static final String ITEM_3 = "https://vkitae.kz/rossiyskaya-kosmetika/rus-uhod-za-telom/rus-skraby-i-pilingi/6297-compliment";
-
+    private static String[] locatorItems = {ITEM_1, ITEM_2, ITEM_3};
 
     private static void cartPopupWindow() {
         driver.findElement(By.xpath("//span[@id='cart-total']/i")).click();
@@ -79,12 +83,15 @@ public class CartTest extends BaseTest {
     }
 
     @Test
-    public void addItemsToCheckoutPageTest() {
-        addToCart(ITEM_1);
-        addToCart(ITEM_2);
-        addToCart(ITEM_3);
+    public void addItemsToCheckoutPageTest(){
+        for (String i : locatorItems) {
+            addToCart(i);
+         }
         checkoutButtonClick();
-
+        for (String i : locatorItems) {
+            String path = "//*[@href='" + i + "']";
+            Assert.assertTrue(driver.findElements(By.xpath(path)).size() == 3);
+        }
     }
 
 }
