@@ -21,9 +21,15 @@ public class Main {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("https://vkitae.kz");
-        int items = Integer.valueOf(driver.findElement(By.xpath("//*[@class='count-quantity']")).getText());
-        System.out.println(items);
+        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
+        String price = driver.findElement(By.xpath("//div[@id='main-product-price']")).getText();
+        price = price.replace("тг.", "");
+        price = price.replace("руб.", "");
+        price = price.replace(" ", "");
+
+        int total = Integer.parseInt(price);
+        System.out.println(total / 2);
+
 
         driver.quit();
     }
