@@ -125,7 +125,7 @@ public class CartTest extends BaseTest {
             price = price.replace("руб.", "");
             price = price.replace(" ", "");
 
-            total += Integer.parseInt(price);
+            total += Integer.valueOf(price);
         }
         checkoutButtonClick();
         System.out.println(total);
