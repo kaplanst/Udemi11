@@ -49,4 +49,11 @@ public class ServiceClass {
         return driver.getCurrentUrl();
     }
 
+    public int getPrice(WebElement price){
+        String priceTotal = price.getText();
+        priceTotal = priceTotal.replace("тг.", "");
+        priceTotal = priceTotal.replace("руб.", "");
+        priceTotal = priceTotal.replace(" ", "");
+        return Integer.valueOf(priceTotal);
+    }
 }

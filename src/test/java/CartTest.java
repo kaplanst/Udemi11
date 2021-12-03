@@ -118,25 +118,12 @@ public class CartTest extends BaseTest {
 
     @Test
     public void totalPriceTest() {
-
-        int total = 0;
-        for (String i : locatorItems) {
-            addToCart(i);
-        }
+        int totalPrice = 0;
+        for (String i : locatorItems) addToCart(i);
         checkoutButtonClick();
         List<WebElement> priceList = driver.findElements(By.xpath("//td[@class='total']"));
-        for (WebElement elem: priceList) {
-            total += getPrice(elem);
-        }
-        int finalPrice = getPrice(driver.findElement(By.xpath("//*[@id='total_sub_total']/span[2]")));
-        Assert.assertEquals(total, finalPrice);
+        for (WebElement elem: priceList) totalPrice += serviceClass.getPrice(elem);
+        Assert.assertEquals(totalPrice, serviceClass.getPrice(driver.findElement(By.xpath("//*[@id='total_sub_total']/span[2]"))));
     }
 
-    public int getPrice(WebElement price){
-        String priceTotal = price.getText();
-        priceTotal = priceTotal.replace("тг.", "");
-        priceTotal = priceTotal.replace("руб.", "");
-        priceTotal = priceTotal.replace(" ", "");
-        return Integer.valueOf(priceTotal);
-    }
 }
