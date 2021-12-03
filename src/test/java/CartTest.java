@@ -124,11 +124,18 @@ public class CartTest extends BaseTest {
             price = price.replace("тг.", "");
             price = price.replace("руб.", "");
             price = price.replace(" ", "");
-
+            System.out.println(price);
             total += Integer.valueOf(price);
         }
         checkoutButtonClick();
-        System.out.println(total);
 
+
+        String priceTotal = driver.findElement(By.xpath("//*[@id='total_sub_total']/span[2]")).getText();
+        priceTotal = priceTotal.replace("тг.", "");
+        priceTotal = priceTotal.replace("руб.", "");
+        priceTotal = priceTotal.replace(" ", "");
+ //       Assert.assertEquals(total, Integer.valueOf(priceTotal));
+        System.out.println(total);
+        System.out.println(Integer.valueOf(priceTotal));
     }
 }
