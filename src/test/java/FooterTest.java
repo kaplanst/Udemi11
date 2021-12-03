@@ -111,7 +111,7 @@ public class FooterTest extends BaseTest {
     void rightMenuBunchTest() {
         String[] templates = {"https://www.instagram.com/accounts/login/", "https://www.instagram.com/accounts/login/",
         "https://vk.com/vkitae_kz", "https://ok.ru/profile/563508354228", "https://www.facebook.com/aptekavkitae/"};
-        int i = 0;
+        int i = 1;
         String mainTab = driver.getWindowHandle();
         List<WebElement> right = driver.findElements(By.xpath("//*[@class='col-md-2 social-box']/ul/li/a"));
         for (WebElement menu: right) {
@@ -119,7 +119,7 @@ public class FooterTest extends BaseTest {
             for (String tab : driver.getWindowHandles()) {
                 driver.switchTo().window(tab);
             }
-            Assert.assertEquals(driver.getCurrentUrl(), templates[i]);
+            Assert.assertEquals(driver.getCurrentUrl(), templates[i-1], "Error on page - "+ i + ", " + driver.getTitle());
             i++;
             driver.close();
             driver.switchTo().window(mainTab);

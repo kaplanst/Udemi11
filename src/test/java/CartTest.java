@@ -68,16 +68,16 @@ public class CartTest extends BaseTest {
     public void addSeveralSameItemsToCartTest() throws InterruptedException {
         addToCart(ITEM_1);
         driver.findElement(By.xpath("//input[@name='quantity'][@class='form-control']")).sendKeys(Keys.BACK_SPACE, ITEMS_AMOUNT, Keys.ENTER);
-        Thread.sleep(500);
+        Thread.sleep(2000);
         String itemsInList = driver.findElement(By.xpath("//*[@class='popup-text']//span[1]")).getText();
         String itemsInCart = driver.findElement(By.xpath("//*[@class='count-quantity']")).getText();
-        Assert.assertEquals(itemsInList, ITEMS_AMOUNT + " товаров");
-        Assert.assertEquals(itemsInCart, ITEMS_AMOUNT);
+        Assert.assertEquals(itemsInList, ITEMS_AMOUNT + " товаров", "Items mount in Popup window is FAILED");
+        Assert.assertEquals(itemsInCart, ITEMS_AMOUNT, "Items mount in cart is FAILED");
     }
 
     @Test
     public void transferToCheckoutPageTest() {
-        addToCart(ITEM_1);
+        addToCart(ITEM_2);
         checkoutButtonClick();
         Assert.assertEquals(driver.findElement(By.xpath("//h1")).getText(), "Оформление заказа");
     }
@@ -94,4 +94,41 @@ public class CartTest extends BaseTest {
         }
     }
 
+    @Test
+    public void checkOutWithEmptyCredsTest() {
+        addToCart(ITEM_3);
+        checkoutButtonClick();
+        driver.findElement(By.xpath("//a[@id='simplecheckout_button_confirm']")).click();
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Фамилия должна быть от 2 до 32 символов!']")).isDisplayed(), "Last name alert is failed");
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Имя должно быть от 2 до 32 символов!']")).isDisplayed(), "First name alert is failed");
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Номер телефона указан не верно!']")).isDisplayed(), "Phone alert is failed");
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Некорректный адрес электронной почты!']")).isDisplayed(), "email alert is failed");
+        Assert.assertTrue(driver.findElement(By.xpath("//*[text()='Укажите область!']")).isDisplayed(), "District alert is failed");
+    }
+
+    @Test
+    public void fakeEmailCheckoutTest() {
+        addToCart(ITEM_1);
+        checkoutButtonClick();
+        driver.findElement(By.xpath("//a[@onclick='PutEmail()']")).click();
+        String fakeEmail = driver.findElement(By.xpath("//input[@id='customer_email']")).getAttribute("value");
+        Assert.assertEquals(fakeEmail, "client@vkitae.kz");
+    }
+
+    @Test
+    public void totalPriceTest() {
+        int total = 0;
+        for (String i : locatorItems) {
+            addToCart(i);
+            String price = driver.findElement(By.xpath("//div[@id='main-product-price']")).getText();
+            price = price.replace("тг.", "");
+            price = price.replace("руб.", "");
+            price = price.replace(" ", "");
+
+            total += Integer.valueOf(price);
+        }
+        checkoutButtonClick();
+        System.out.println(total);
+
+    }
 }
