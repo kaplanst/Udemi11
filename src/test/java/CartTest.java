@@ -1,6 +1,7 @@
 import ServicePack.BaseTest;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -117,25 +118,25 @@ public class CartTest extends BaseTest {
 
     @Test
     public void totalPriceTest() {
+
         int total = 0;
         for (String i : locatorItems) {
             addToCart(i);
-            String price = driver.findElement(By.xpath("//div[@id='main-product-price']")).getText();
-            price = price.replace("тг.", "");
-            price = price.replace("руб.", "");
-            price = price.replace(" ", "");
-            System.out.println(price);
-            total += Integer.valueOf(price);
         }
         checkoutButtonClick();
+        List<WebElement> priceList = driver.findElements(By.xpath("//td[@class='total']"));
+        for (WebElement elem: priceList) {
+            total += getPrice(elem);
+        }
+        int finalPrice = getPrice(driver.findElement(By.xpath("//*[@id='total_sub_total']/span[2]")));
+        Assert.assertEquals(total, finalPrice);
+    }
 
-
-        String priceTotal = driver.findElement(By.xpath("//*[@id='total_sub_total']/span[2]")).getText();
+    public int getPrice(WebElement price){
+        String priceTotal = price.getText();
         priceTotal = priceTotal.replace("тг.", "");
         priceTotal = priceTotal.replace("руб.", "");
         priceTotal = priceTotal.replace(" ", "");
- //       Assert.assertEquals(total, Integer.valueOf(priceTotal));
-        System.out.println(total);
-        System.out.println(Integer.valueOf(priceTotal));
+        return Integer.valueOf(priceTotal);
     }
 }
