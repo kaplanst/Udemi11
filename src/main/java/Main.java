@@ -5,6 +5,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.opera.OperaDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.File;
@@ -21,14 +22,14 @@ public class Main {
         driver = new ChromeDriver();
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.get("https://vkitae.kz/sredstva-dlya-pohudeniya/kapsulyi-dlya-pohudeniya/3670-bilayt");
-        String price = driver.findElement(By.xpath("//div[@id='main-product-price']")).getText();
-        price = price.replace("тг.", "");
-        price = price.replace("руб.", "");
-        price = price.replace(" ", "");
+        driver.get("https://vkitae.kz/popular_products");
+        driver.findElement(By.xpath("//button[@id='grid-view']")).click();
 
-        int total = Integer.parseInt(price);
-        System.out.println(total / 2);
+        driver.findElement(By.xpath("//button[@id='list-view']")).click();
+        if (driver.findElements(By.xpath("//button[@class='btn btn-default tooltipstered active'][@id='grid-view']")).size() > 0) System.out.println("Yes");
+        else System.out.println("No");
+        if (driver.findElements(By.xpath("//button[@class='btn btn-default tooltipstered active'][@id='list-view']")).size() > 0) System.out.println("Yes");
+        else System.out.println("No");
 
 
         driver.quit();
